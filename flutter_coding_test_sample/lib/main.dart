@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_coding_test_sample/components/carousel.dart';
 
 void main() {
   runApp(MyApp());
@@ -46,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Carousel(),
             Text(
               'You have pushed the button this many times:',
             ),
