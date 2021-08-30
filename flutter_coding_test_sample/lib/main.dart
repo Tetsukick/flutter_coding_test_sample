@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -28,8 +28,13 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
   int _counter = 0;
+  late final AnimationController _animationController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 500),
+  );
+  var _isScaledUp = false;
 
   void _incrementCounter() {
     setState(() {
@@ -48,21 +53,46 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Carousel(),
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            flutterAnimationBox()
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+        onPressed: () {
+          if (_isScaledUp) {
+            _animationController.reverse();
+          } else {
+            _animationController.forward();
+          }
+          _isScaledUp = !_isScaledUp;
+        },
+        child: const Icon(Icons.refresh),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  Widget flutterAnimationBox() {
+    return Center(
+      child: DecoratedBoxTransition(
+        decoration: _animationController
+          .drive(
+            CurveTween(curve: Curves.fastOutSlowIn),
+          )
+          .drive(
+            DecorationTween(
+              begin: const FlutterLogoDecoration(
+                style: FlutterLogoStyle.horizontal,
+              ),
+              end: const FlutterLogoDecoration(
+                style: FlutterLogoStyle.stacked,
+              ),
+            ),
+          ),
+        child: const SizedBox(
+          width: 200,
+          height: 200,
+        ),
+      ),
     );
   }
 }
