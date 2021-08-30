@@ -6,21 +6,25 @@ class Carousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
-      options: CarouselOptions(height: 400.0),
-      items: Car.values.map((i) {
+      options: CarouselOptions(
+        autoPlay: true,
+        height: 200.0
+      ),
+      items: Car.values.map((car) {
         return Builder(
           builder: (BuildContext context) {
             return Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.symmetric(horizontal: 5.0),
-              decoration: BoxDecoration(
-                color: Colors.amber
-              ),
-              child: Text('model: ${i.name}', style: TextStyle(fontSize: 16.0),)
+              child: carouselItem(car),
             );
           },
         );
       }).toList(),
     );
+  }
+
+  Widget carouselItem(Car car) {
+    return Image.asset(car.imagePath);
   }
 }
