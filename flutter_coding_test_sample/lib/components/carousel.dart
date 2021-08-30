@@ -8,7 +8,7 @@ class Carousel extends StatelessWidget {
     return CarouselSlider(
       options: CarouselOptions(
         autoPlay: true,
-        height: 200.0
+        height: 300.0
       ),
       items: Car.values.map((car) {
         return Builder(
@@ -25,6 +25,19 @@ class Carousel extends StatelessWidget {
   }
 
   Widget carouselItem(Car car) {
-    return Image.asset(car.imagePath);
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Image.asset(car.imagePath),
+          SizedBox(height: 12),
+          Text(car.name,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold
+            ),
+          )
+        ],
+      )
+    );
   }
 }
